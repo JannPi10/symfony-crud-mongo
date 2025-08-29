@@ -1,0 +1,77 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Editar {{ product.name }}{% endblock %}
+
+{% block body %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-header bg-warning text-dark">
+                <h2 class="mb-0"><i class="bi bi-pencil"></i> Editar Producto: {{ product.name }}</h2>
+            </div>
+            <div class="card-body">
+                {{ form_start(form) }}
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                {{ form_label(form.name) }}
+                                {{ form_widget(form.name) }}
+                                {{ form_errors(form.name) }}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                {{ form_label(form.price) }}
+                                <div class="input-group">
+                                    <span class="input-group-text">$</span>
+                                    {{ form_widget(form.price) }}
+                                </div>
+                                {{ form_errors(form.price) }}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                {{ form_label(form.stock) }}
+                                {{ form_widget(form.stock) }}
+                                {{ form_errors(form.stock) }}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                {{ form_label(form.status) }}
+                                {{ form_widget(form.status) }}
+                                {{ form_errors(form.status) }}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        {{ form_label(form.description) }}
+                        {{ form_widget(form.description) }}
+                        {{ form_errors(form.description) }}
+                    </div>
+                    
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a href="{{ path('product_show', {'id': product.id}) }}" class="btn btn-secondary">
+                            <i class="bi bi-arrow-left"></i> Cancelar
+                        </a>
+                        {{ form_widget(form.save, {'label': 'Guardar Cambios'}) }}
+                    </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+        
+        <div class="card mt-3">
+            <div class="card-body">
+                <small class="text-muted">
+                    <i class="bi bi-info-circle"></i>
+                    <strong>Última actualización:</strong> {{ product.updatedAt|date('d/m/Y H:i') }}
+                </small>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

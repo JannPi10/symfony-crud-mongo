@@ -1,0 +1,108 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Lista de Productos{% endblock %}
+
+{% block body %}
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1><i class="bi bi-box-seam"></i> Lista de Productos</h1>
+        <a href="{{ path('product_new') }}" class="btn btn-primary">
+            <i class="bi bi-plus-circle"></i> Nuevo Producto
+        </a>
+    </div>
+
+    {% if products|length > 0 %}
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th><i class="bi bi-tag"></i> Nombre</th>
+                            <th><i class="bi bi-text-paragraph"></i> Descripción</th>
+                            <th><i class="bi bi-currency-dollar"></i> Precio</th>
+                            <th><i class="bi bi-boxes"></i> Stock</th>
+                            <th><i class="bi bi-circle-fill"></i> Estado</th>
+                            <th><i class="bi bi-calendar"></i> Creado</th>
+                            <th><i class="bi bi-tools"></i> Acciones</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for product in products %}
+                            <tr>
+                                <td>
+                                    <strong>{{ product.name }}</strong>
+                                </td>
+                                <td>
+                                    {{ product.description|length > 50 ? product.description|slice(0, 50) ~ '...' : product.description }}
+                                </td>
+                                <td>
+                                    <span class="badge bg-success">${{ product.price|number_format(2) }}</span>
+                                </td>
+                                <td>
+                                    {% if product.stock > 10 %}
+                                        <span class="badge bg-success">{{ product.stock }}</span>
+                                    {% elseif product.stock > 0 %}
+                                        <span class="badge bg-warning">{{ product.stock }}</span>
+                                    {% else %}
+                                        <span class="badge bg-danger">{{ product.stock }}</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if product.status == 'disponible' %}
+                                        <span class="badge bg-success">Disponible</span>
+                                    {% elseif product.status == 'agotado' %}
+                                        <span class="badge bg-warning">Agotado</span>
+                                    {% else %}
+                                        <span class="badge bg-danger">Descontinuado</span>
+                                    {% endif %}
+                                </td>
+                                <td>{{ product.createdAt|date('d/m/Y') }}</td>
+                                <td>
+                                    <div class="btn-group" role="group">
+                                        <a href="{{ path('product_show', {'id': product.id}) }}"
+                                           class="btn btn-info btn-sm" title="Ver detalles">
+                                            <i class="bi bi-eye"></i>
+                                        </a>
+                                        <a href="{{ path('product_edit', {'id': product.id}) }}"
+                                           class="btn btn-warning btn-sm" title="Editar">
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
+                                        <form method="post" action="{{ path('product_delete', {'id': product.id}) }}"
+                                              style="display: inline-block;"
+                                              onsubmit="return confirm('¿Estás seguro de que quieres eliminar este producto?');">
+                                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ product.id) }}">
+                                            <button class="btn btn-danger btn-sm" title="Eliminar">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-3">
+            <p class="text-muted">
+                <i class="bi bi-info-circle"></i>
+                Total de productos: <strong>{{ products|length }}</strong>
+            </p>
+        </div>
+    {% else %}
+        <div class="text-center">
+            <div class="card">
+                <div class="card-body">
+                    <i class="bi bi-box" style="font-size: 4rem; color: #6c757d;"></i>
+                    <h3 class="mt-3">No hay productos registrados</h3>
+                    <p class="text-muted">Comienza agregando tu primer producto al inventario.</p>
+                    <a href="{{ path('product_new') }}" class="btn btn-primary">
+                        <i class="bi bi-plus-circle"></i> Crear Primer Producto
+                    </a>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
