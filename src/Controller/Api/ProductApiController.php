@@ -248,7 +248,7 @@ class ProductApiController extends AbstractController
             'status' => 'success',
             'message' => "Producto '$productName' eliminado exitosamente",
             'data' => null
-        ], 200);
+        ], Response::HTTP_OK);
     }
 
     /**

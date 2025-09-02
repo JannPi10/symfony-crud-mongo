@@ -2,6 +2,7 @@
 
 namespace App\Document;
 
+use DateTime;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 use Symfony\Component\Validator\Constraints as Assert;
 use JsonSerializable;
@@ -37,15 +38,15 @@ class Product implements JsonSerializable
     private ?string $status = 'disponible';
 
     #[ODM\Field(type: 'date')]
-    private ?\DateTime $createdAt = null;
+    private ?DateTime $createdAt;
 
     #[ODM\Field(type: 'date')]
-    private ?\DateTime $updatedAt = null;
+    private ?DateTime $updatedAt;
 
     public function __construct()
     {
-        $this->createdAt = new \DateTime();
-        $this->updatedAt = new \DateTime();
+        $this->createdAt = new DateTime();
+        $this->updatedAt = new DateTime();
     }
 
     public function jsonSerialize(): array
@@ -76,7 +77,7 @@ class Product implements JsonSerializable
     public function setName(?string $name): self
     {
         $this->name = $name;
-        $this->updatedAt = new \DateTime();
+        $this->updatedAt = new DateTime();
         return $this;
     }
 
@@ -88,7 +89,7 @@ class Product implements JsonSerializable
     public function setDescription(?string $description): self
     {
         $this->description = $description;
-        $this->updatedAt = new \DateTime();
+        $this->updatedAt = new DateTime();
         return $this;
     }
 
@@ -100,7 +101,7 @@ class Product implements JsonSerializable
     public function setPrice(?float $price): self
     {
         $this->price = $price;
-        $this->updatedAt = new \DateTime();
+        $this->updatedAt = new DateTime();
         return $this;
     }
 
@@ -112,7 +113,7 @@ class Product implements JsonSerializable
     public function setStock(?int $stock): self
     {
         $this->stock = $stock;
-        $this->updatedAt = new \DateTime();
+        $this->updatedAt = new DateTime();
         return $this;
     }
 
@@ -124,27 +125,27 @@ class Product implements JsonSerializable
     public function setStatus(?string $status): self
     {
         $this->status = $status;
-        $this->updatedAt = new \DateTime();
+        $this->updatedAt = new DateTime();
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTime
+    public function getCreatedAt(): ?DateTime
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(?\DateTime $createdAt): self
+    public function setCreatedAt(?DateTime $createdAt): self
     {
         $this->createdAt = $createdAt;
         return $this;
     }
 
-    public function getUpdatedAt(): ?\DateTime
+    public function getUpdatedAt(): ?DateTime
     {
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(?\DateTime $updatedAt): self
+    public function setUpdatedAt(?DateTime $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
         return $this;
